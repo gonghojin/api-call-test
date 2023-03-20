@@ -1,14 +1,12 @@
 package com.gongdel.blog.search.application;
 
 import com.gongdel.blog.search.domain.Search;
-import com.gongdel.blog.search.domain.Search.Info.Context;
-import com.gongdel.blog.search.infrastructure.client.kakao.KakaoClient;
-import com.gongdel.blog.search.infrastructure.client.kakao.KakaoKeywordSearch.Request;
-import com.gongdel.blog.search.infrastructure.client.kakao.KakaoKeywordSearch.Request.Sort;
-import com.gongdel.blog.search.infrastructure.client.kakao.KakaoKeywordSearch.Response;
-import java.util.stream.Collectors;
+import com.gongdel.blog.search.domain.Search.Info;
+import com.gongdel.blog.search.domain.event.SearchKeyEvent;
+import com.gongdel.blog.search.domain.event.SearchKeyword;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,30 +14,14 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class SearchService {
 
-  private final KakaoClient client;
+  private final SearchStrategyExecutor searchStrategyExecutor;
+  private final ApplicationEventPublisher publisher;
 
   public Search.Info search(Search.Query query) {
-    Request request = Request.builder()
-        .query(query.getKeyword())
-        .page(query.getPage())
-        .sort(Sort.valueOf(query.getSort()))
-        .size(query.getPageSize()).build();
+    Info search = searchStrategyExecutor.search(query);
 
-    Response search = client.search(request);
+    publisher.publishEvent(SearchKeyEvent.of(SearchKeyword.of(query.getKeyword())));
 
-    return Search.Info.builder()
-        .context(search.getDocuments().stream().map(
-            document -> Context.builder()
-                .title(document.getTitle())
-                .contents(document.getContents())
-                .url(document.getUrl())
-                .blogName(document.getBlogName())
-                .thumbNail(document.getThumbNail())
-                .dateTime(document.getDateTime())
-                .build()
-        ).collect(Collectors.toList()))
-        .pageSize(search.getMeta().getPageableCount())
-        .totalCount(search.getMeta().getTotalCount())
-        .build();
+    return search;
   }
 }

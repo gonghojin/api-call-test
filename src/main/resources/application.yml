@@ -14,3 +14,12 @@ spring:
     console:
       path: /h2
       enabled: true
+
+webclient:
+  kakao:
+    host: dapi.kakao.com
+    scheme: https
+    headers:
+      Authorization: KakaoAK 829fb1fccd6e657aef1c3f68f336dfed
+
+  ## 네이버

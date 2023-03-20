@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -18,6 +19,7 @@ public class KakaoKeywordSearch {
 
   @Getter
   @ToString
+  @EqualsAndHashCode
   @JsonInclude(value = NON_NULL)
   @NoArgsConstructor(access = AccessLevel.PRIVATE)
   public static class Request {
@@ -110,6 +112,7 @@ public class KakaoKeywordSearch {
 
   @Getter
   @NoArgsConstructor(access = AccessLevel.PRIVATE)
+  @EqualsAndHashCode
   public static class Response {
 
     private List<Document> documents = new ArrayList<>();
@@ -157,6 +160,7 @@ public class KakaoKeywordSearch {
     @Getter
     @ToString
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @EqualsAndHashCode
     public static class Meta {
 
       /**

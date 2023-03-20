@@ -3,6 +3,7 @@ package com.gongdel.blog.search.domain;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -14,6 +15,7 @@ public class Search {
   @Builder
   @Getter
   @ToString
+  @EqualsAndHashCode
   public static class Info {
 
     private final List<Context> context;
@@ -23,6 +25,7 @@ public class Search {
     @Builder
     @Getter
     @ToString
+    @EqualsAndHashCode
     public static class Context {
 
       /**
@@ -60,6 +63,7 @@ public class Search {
   @Builder
   @Getter
   @ToString
+  @EqualsAndHashCode
   public static class Query {
 
     private final String keyword;

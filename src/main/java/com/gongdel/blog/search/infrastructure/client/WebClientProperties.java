@@ -29,7 +29,7 @@ public class WebClientProperties {
     private Map<String, String> headers;
 
     public String getScheme() {
-      return StringUtils.hasText(host) ? host : "https";
+      return StringUtils.hasText(scheme) ? scheme : "https";
     }
   }
 }

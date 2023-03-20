@@ -17,7 +17,7 @@ public class WebClientConfig {
   public KakaoClient webClient(WebClientProperties clientProperties) {
     KakaoProperties kakaoProperties = clientProperties.getKakao();
     WebClient webClient = WebClient.builder()
-        .baseUrl(kakaoProperties.getScheme() + ":://" + kakaoProperties.getHost())
+        .baseUrl(kakaoProperties.getScheme() + "://" + kakaoProperties.getHost())
         .defaultHeader("Authorization", kakaoProperties.getHeaders().get("Authorization"))
         .build();
 

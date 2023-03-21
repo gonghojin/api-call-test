@@ -4,6 +4,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gongdel.blog.common.dto.exception.InvalidParamException;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -59,7 +60,7 @@ public class KakaoKeywordSearch {
 
     private void setQuery(String query) {
       if (!StringUtils.hasText(query)) {
-        throw new IllegalArgumentException("Request query must not be null");
+        throw new InvalidParamException("Request query must not be null");
       }
       this.query = query;
     }
@@ -78,7 +79,7 @@ public class KakaoKeywordSearch {
       }
 
       if (page < 1 || page > 50) {
-        throw new IllegalArgumentException("Request page is invalid");
+        throw new InvalidParamException("Request page is invalid");
       }
 
       this.page = page;
@@ -90,7 +91,7 @@ public class KakaoKeywordSearch {
       }
 
       if (size < 1 || size > 50) {
-        throw new IllegalArgumentException("Request size is invalid");
+        throw new InvalidParamException("Request size is invalid");
 
       }
 

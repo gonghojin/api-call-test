@@ -1,5 +1,6 @@
 package com.gongdel.blog.rank.domain;
 
+import com.gongdel.blog.common.dto.exception.InvalidParamException;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,11 +41,11 @@ public class Rank {
   @Builder
   public Rank(String keyword, Integer count) {
     if (!StringUtils.hasText(keyword)) {
-      throw new IllegalArgumentException("Rank.keyword is null");
+      throw new InvalidParamException("Rank.keyword is null");
     }
 
     if (count == null) {
-      throw new IllegalArgumentException("Rank.count is null");
+      throw new InvalidParamException("Rank.count is null");
     }
 
     this.keyword = keyword;

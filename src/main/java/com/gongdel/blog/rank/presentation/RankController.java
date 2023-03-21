@@ -1,8 +1,8 @@
 package com.gongdel.blog.rank.presentation;
 
+import com.gongdel.blog.common.dto.CommonResponse;
 import com.gongdel.blog.rank.application.RankService;
 import com.gongdel.blog.rank.domain.KeywordCount;
-import com.gongdel.common.dto.CommonResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

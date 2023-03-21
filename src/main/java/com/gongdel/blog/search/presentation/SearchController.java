@@ -1,9 +1,10 @@
 package com.gongdel.blog.search.presentation;
 
+import com.gongdel.blog.common.dto.CommonResponse;
+import com.gongdel.blog.common.dto.exception.InvalidParamException;
 import com.gongdel.blog.search.application.SearchService;
 import com.gongdel.blog.search.domain.Search.Info;
 import com.gongdel.blog.search.domain.Search.Query;
-import com.gongdel.common.dto.CommonResponse;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -27,7 +28,7 @@ public class SearchController {
       @RequestParam String keyword, @PageableDefault(page = 1) Pageable pageable) {
 
     if (!StringUtils.hasText(keyword)) {
-      throw new IllegalArgumentException("키워드는 필수 값입니다.");
+      throw new InvalidParamException("Keyword is required.");
     }
 
     Query query = Query.builder()

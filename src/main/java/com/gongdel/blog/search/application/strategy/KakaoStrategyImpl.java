@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class KakaoStrategyImpl implements SearchStrategy {
     Request request = Request.builder()
         .query(query.getKeyword())
         .page(query.getPage())
-        .sort(query.getSort() != null ? Sort.valueOf(query.getSort())
+        .sort(StringUtils.hasText(query.getSort()) ? Sort.valueOf(query.getSort())
             : null) // default value 는 Request에서 정의된 기준으로 처리
         .size(query.getPageSize()).build();
 

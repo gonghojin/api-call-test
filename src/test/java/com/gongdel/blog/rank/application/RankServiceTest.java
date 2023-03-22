@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @ExtendWith(MockitoExtension.class)
 class RankServiceTest {
@@ -25,11 +26,8 @@ class RankServiceTest {
   @Test
   void findTop10OrderByCount() {
     // Given
-    Rank rank = Rank.builder()
-        .keyword("캠핑")
-        .count(10)
-        .build();
-
+    Rank rank = Rank.create("캠핑");
+    ReflectionTestUtils.setField(rank, "count", 10);
     List<Rank> rankList = List.of(rank);
     when(rankRepository.findTop10ByOrderByCountDesc()).thenReturn(rankList);
 

@@ -8,13 +8,6 @@ group = 'com.gongdel.blog'
 version = '0.1'
 sourceCompatibility = '11'
 
-bootJar{
-    archivesBaseName = 'kakaobank'
-    archiveFileName = 'kakaobank.jar'
-    archiveVersion = "0.0.0"
-}
-
-
 repositories {
     mavenCentral()
 }

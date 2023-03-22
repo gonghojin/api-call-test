@@ -11,7 +11,6 @@ import javax.persistence.Index;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -33,13 +32,13 @@ public class Rank {
   @Column(unique = true, updatable = false)
   private String keyword;
 
+  @Column(columnDefinition = "integer default 1")
   private Integer count;
 
   @Column(updatable = false)
   private LocalDateTime createdDate;
 
-  @Builder
-  public Rank(String keyword, Integer count) {
+  private Rank(String keyword, Integer count) {
     if (!StringUtils.hasText(keyword)) {
       throw new InvalidParamException("Rank.keyword is null");
     }
@@ -53,7 +52,7 @@ public class Rank {
   }
 
   public static Rank create(String keyword) {
-    return Rank.builder().keyword(keyword).count(1).build();
+    return new Rank(keyword, 1);
   }
 
   public void increaseCount() {

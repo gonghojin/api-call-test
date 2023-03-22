@@ -20,6 +20,7 @@ public class SearchService {
   public Search.Info search(Search.Query query) {
     Info search = searchStrategyExecutor.search(query);
 
+    // 정상 검색되었을 때, 검색 기록
     publisher.publishEvent(SearchKeyEvent.of(SearchKeyword.of(query.getKeyword())));
 
     return search;

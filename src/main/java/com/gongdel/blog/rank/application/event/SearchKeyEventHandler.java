@@ -6,6 +6,7 @@ import com.gongdel.blog.search.domain.event.SearchKeyword;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,8 +17,9 @@ public class SearchKeyEventHandler {
   private final RankService rankService;
 
   @EventListener
-  public void hadleEvent(SearchKeyEvent event) {
-    log.info(String.format("Handle KeyWordEvent - keyword : %s", event.getClass().getName()));
+  @Async
+  public void handleEvent(SearchKeyEvent event) {
+    log.debug(String.format("Handle KeyWordEvent - keyword : %s", event.getClass().getName()));
 
     SearchKeyword searchKeyword = event.getSource();
     rankService.createSearchKeywordHistory(searchKeyword);

@@ -7,7 +7,7 @@
 1. 사용 기술
 2. 애플리케이션 실행
 3. 기능 지원 및 API 정보
-4. 필수 요구 사항 및 추가 우대 사항 실행 여부
+4. 그외 고려한 점
 ---
 
 ## 1. 사용기술
@@ -17,6 +17,17 @@
 + SPRING BOOT 활용
 + H2
 
++ 외부 라이브러리 사용
+  + Webclient 테스트용
+    ```
+    testImplementation 'com.squareup.okhttp3:okhttp:4.0.1'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.0.1'
+    ```
+  + 보일러플레이트 제거용(롬복)
+    ```
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    ```
 ---
 
 ## 2. 애플리케이션 실행
@@ -124,15 +135,7 @@ size	Integer	한 페이지에 보여질 문서 수, 1~50 사이의 값, 기본 �
 }
 ```
 
-### 4. 필수 요구 사항 및 우대 사항 실행 여부
-
-#### 필수
-
-+ 블로그 검색
-+ 인기 검색 목록
-
-#### 우대사항
-
+### 4. 그외 고려한 점
 + 동시성 이슈가 발생할 수 있는 부분을 염두에 둔 구현
     + 키워드 별로 검색 시, 조회 카운드 변경
         - 빈번한 충돌이 일어날 것이라고 가정하여, `Pessimistic`를 적용하여 구현(H2)

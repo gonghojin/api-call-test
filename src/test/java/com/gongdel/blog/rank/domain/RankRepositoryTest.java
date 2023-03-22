@@ -17,14 +17,14 @@ class RankRepositoryTest {
   RankRepository target;
 
   @Test
-  void findByKeyword() {
+  void findByKeywordWithPessimisticLock() {
     // Given
     String expectKey = "캠핑";
     Rank rank = Rank.create(expectKey);
     target.save(rank);
 
     // When
-    Rank findRank = target.findByKeyword(expectKey).get();
+    Rank findRank = target.findByKeywordWithPessimisticLock(expectKey).get();
 
     // Then
     Assertions.assertThat(findRank.getKeyword()).isEqualTo(expectKey);

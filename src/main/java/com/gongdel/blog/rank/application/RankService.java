@@ -5,7 +5,6 @@ import com.gongdel.blog.rank.domain.Rank;
 import com.gongdel.blog.rank.infrastructure.RankRepository;
 import com.gongdel.blog.search.domain.event.SearchKeyword;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,16 +20,11 @@ public class RankService {
 
   @Transactional
   public void createSearchKeywordHistory(SearchKeyword searchKeyword) {
-    Optional<Rank> rankEntity = rankRepository
-        .findByKeyword(searchKeyword.getKeyword());
-
-    if (rankEntity.isEmpty()) {
-      rankRepository.save(Rank.create(searchKeyword.getKeyword()));
-      return;
-    }
-
-    Rank rank = rankEntity.get();
-    rank.increaseCount();
+    rankRepository.findByKeywordWithPessimisticLock(searchKeyword.getKeyword())
+        .ifPresentOrElse(
+            Rank::increaseCount,
+            () -> rankRepository.save(Rank.create(searchKeyword.getKeyword()))
+        );
   }
 
   @Transactional(readOnly = true)

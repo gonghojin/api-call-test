@@ -65,8 +65,8 @@ class KakaoStrategyImplTest {
     assertThat(context.getThumbNail()).isEqualTo(expectedContext.getThumbNail());
     assertThat(context.getDateTime()).isEqualTo(expectedContext.getDateTime());
 
-    assertThat(info.getPageSize()).isEqualTo(response.getMeta().getPageableCount());
-    assertThat(info.getTotalCount()).isEqualTo(response.getMeta().getTotalCount());
+    assertThat(info.getPageSize()).isEqualTo(response.getDocuments().size());
+    assertThat(info.getTotalCount()).isEqualTo(response.getMeta().getPageableCount());
 
   }
 }

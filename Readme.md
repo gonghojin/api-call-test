@@ -7,7 +7,7 @@
 1. 사용 기술
 2. 애플리케이션 실행
 3. 기능 지원 및 API 정보
-
+4. 필수 요구 사항 및 추가 우대 사항 실행 여부
 ---
 
 ## 1. 사용기술
@@ -49,7 +49,7 @@ size	Integer	한 페이지에 보여질 문서 수, 1~50 사이의 값, 기본 �
 
 > Reponse
 >> message : 성공시, ""
-> > 페이징 관련 결과값은 SPRING 사용
+> > 페이징 관련 결과값은 SPRING Pagination 사용
 
 ```
 {
@@ -57,38 +57,38 @@ size	Integer	한 페이지에 보여질 문서 수, 1~50 사이의 값, 기본 �
     "data": {
         "content": [
             {
-                "title": "<b>캠핑</b>용 화로대, 가정용 숯불 화로 웨버 구입 후기",
-                "contents": "기웃거리다, 알고리즘의 유혹은 남편이 알리에서 화로대를 질렀다. ​ 노는데 진심인 우리! 원래는 화목난로를 사려고 했으나... 아무리 생각해도 우리는 <b>캠핑</b> 장박형은 아니고 여기저기 떠도는 스타일이라, 화목난로는 좀 과하다고 생각이 들었고, 그래서 <b>캠핑</b>용 화로대를 구입했다. ​ 기존에도 화로대도 있는데, 또...",
-                "url": "https://blog.naver.com/longmami/223051646777",
-                "blogName": "이틀, 두가지 삶을 담아내다",
-                "thumbNail": "https://search2.kakaocdn.net/argon/130x130_85_c/4NILkAi02BY",
-                "dateTime": "2023-03-21T21:32:00.000+09:00"
+                "title": "세종 대평동 <b>캠핑</b>용품점 &#39;고릴라<b>캠핑</b>&#39;",
+                "contents": "고릴라<b>캠핑</b> ✔ 세종 종합운동장로 29 JB빌딩 2층 ✔ 매일 10:00-20:00 세종 라운지엑시 카페 들린김에 같은 건물에 위치한 고릴라<b>캠핑</b> 구경했습니다. 따뜻한 봄이오면 <b>캠핑</b> 가고싶은 캠린이 부부거든요. 고릴라<b>캠핑</b>은 2월5일에 오픈해서 따끈따끈한 매장이었습니다. 카페를 먼저 가신다면 커피 마시고 2층 테라스를 통해서...",
+                "url": "http://jjjj-a.tistory.com/58",
+                "blogName": "째스토리",
+                "thumbNail": "https://search1.kakaocdn.net/argon/130x130_85_c/7BmQHMu0r6T",
+                "dateTime": "2023-03-05T01:36:12.000+09:00"
             }
         ],
         "pageable": {
             "sort": {
-                "sorted": false,
-                "empty": true,
-                "unsorted": true
+                "sorted": true,
+                "empty": false,
+                "unsorted": false
             },
             "pageNumber": 1,
-            "pageSize": 800,
-            "offset": 800,
+            "pageSize": 1,
+            "offset": 1,
             "paged": true,
             "unpaged": false
         },
         "last": false,
-        "totalPages": 6280,
-        "totalElements": 5023380,
-        "number": 1,
-        "sort": {
-            "sorted": false,
-            "empty": true,
-            "unsorted": true
-        },
-        "first": false,
-        "size": 800,
+        "totalPages": 800,
+        "totalElements": 800,
         "numberOfElements": 1,
+        "first": false,
+        "sort": {
+            "sorted": true,
+            "empty": false,
+            "unsorted": false
+        },
+        "number": 1,
+        "size": 1,
         "empty": false
     }
 }
@@ -123,3 +123,17 @@ size	Integer	한 페이지에 보여질 문서 수, 1~50 사이의 값, 기본 �
     ]
 }
 ```
+
+### 4. 필수 요구 사항 및 우대 사항 실행 여부
+
+#### 필수
+
++ 블로그 검색
++ 인기 검색 목록
+
+#### 우대사항
+
++ 동시성 이슈가 발생할 수 있는 부분을 염두에 둔 구현
+    + 키워드 별로 검색 시, 조회 카운드 변경
+        - 빈번한 충돌이 일어날 것이라고 가정하여, `Pessimistic`를 적용하여 구현(H2)
++ 카카오 블로그 검색 API 에 장애가 발생한 경우, 네이버 블로그 검색 API 를 통해 데이터 제공

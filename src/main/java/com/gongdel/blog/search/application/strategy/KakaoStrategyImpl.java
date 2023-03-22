@@ -8,6 +8,8 @@ import com.gongdel.blog.search.infrastructure.client.kakao.KakaoClient;
 import com.gongdel.blog.search.infrastructure.client.kakao.KakaoKeywordSearch.Request;
 import com.gongdel.blog.search.infrastructure.client.kakao.KakaoKeywordSearch.Request.Sort;
 import com.gongdel.blog.search.infrastructure.client.kakao.KakaoKeywordSearch.Response;
+import com.gongdel.blog.search.infrastructure.client.kakao.KakaoKeywordSearch.Response.Document;
+import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +34,9 @@ public class KakaoStrategyImpl implements SearchStrategy {
 
     Response response = client.search(request);
 
+    List<Document> documents = response.getDocuments();
     return Search.Info.builder()
-        .context(response.getDocuments().stream().map(
+        .context(documents.stream().map(
             document -> Context.builder()
                 .title(document.getTitle())
                 .contents(document.getContents())
@@ -43,8 +46,8 @@ public class KakaoStrategyImpl implements SearchStrategy {
                 .dateTime(document.getDateTime())
                 .build()
         ).collect(Collectors.toList()))
-        .pageSize(response.getMeta().getPageableCount())
-        .totalCount(response.getMeta().getTotalCount())
+        .pageSize(documents.size())
+        .totalCount(response.getMeta().getPageableCount())
         .build();
   }
 

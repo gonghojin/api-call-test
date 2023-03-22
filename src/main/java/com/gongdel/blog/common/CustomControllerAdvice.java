@@ -3,11 +3,12 @@ package com.gongdel.blog.common;
 import com.gongdel.blog.common.dto.CommonResponse;
 import com.gongdel.blog.common.dto.exception.BaseException;
 import java.util.Collections;
+import javax.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -15,14 +16,26 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class CustomControllerAdvice {
 
-
-  @ExceptionHandler(value = MethodArgumentNotValidException.class)
-  protected ResponseEntity<CommonResponse<Object>> onMethodArgumentNotValidException(
-      MethodArgumentNotValidException e) {
-    log.error("handle MethodArgumentNotValidException", e);
+  /**
+   * 필수 Parameter 체크(keyword)
+   */
+  @ExceptionHandler(value = MissingServletRequestParameterException.class)
+  protected ResponseEntity<CommonResponse<Object>> onMissingServletRequestParameterException(
+      MissingServletRequestParameterException e) {
+    log.error("handle MissingServletRequestParameterException", e);
 
     return new ResponseEntity<>(
-        CommonResponse.fail(e.getBindingResult(), HttpStatus.BAD_REQUEST.getReasonPhrase()),
+        CommonResponse.fail(Collections.emptyMap(), e.getMessage()),
+        HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(value = ConstraintViolationException.class)
+  protected ResponseEntity<CommonResponse<Object>> onConstraintViolationException(
+      ConstraintViolationException e) {
+    log.error("handle ConstraintViolationException", e);
+
+    return new ResponseEntity<>(
+        CommonResponse.fail(Collections.emptyMap(), e.getMessage()),
         HttpStatus.BAD_REQUEST);
   }
 
@@ -49,7 +62,8 @@ public class CustomControllerAdvice {
 
     return new ResponseEntity<>(
         CommonResponse
-            .fail(Collections.emptyMap(), e.getMessage()), HttpStatus.valueOf(e.hashCode()));
+            .fail(Collections.emptyMap(), e.getMessage()),
+        HttpStatus.valueOf(e.getErrorCode().getStatus()));
   }
 
   // 예상치 못한 에러

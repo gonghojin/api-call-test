@@ -23,3 +23,9 @@ webclient:
       Authorization: KakaoAK 829fb1fccd6e657aef1c3f68f336dfed
 
   ## 네이버
+  naver:
+    host: openapi.naver.com
+    scheme: https
+    headers:
+      client-id: BzudX3ab9588JsutrTEb
+      client-secret: oaI21QGz2b

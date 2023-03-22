@@ -1,5 +1,6 @@
 package com.gongdel.blog.search.application;
 
+import com.gongdel.blog.common.dto.exception.VendorServerException;
 import com.gongdel.blog.search.application.strategy.SearchStrategy;
 import com.gongdel.blog.search.application.strategy.SearchStrategy.Order;
 import com.gongdel.blog.search.application.strategy.SearchStrategyTemplate;
@@ -13,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * 카카오 블로그 검색 API 장애 시, 네이버 블로그 검색 API 로 제공 - TODO : 네이버 블로그 검색 API 추가 구현 필요
+ * 카카오 API 장애 시, 네이버 조회로 대체
  */
 @Component
 @Slf4j
@@ -24,17 +25,24 @@ public class SearchStrategyExecutor implements SearchStrategyTemplate {
   public SearchStrategyExecutor(List<SearchStrategy> strategy) {
     this.strategyMap = strategy.stream()
         .collect(Collectors.toMap(SearchStrategy::getOrder, Function.identity()));
+
+    int length = Order.values().length;
+    //의도한 개수와 실제 DI 개수 검증
+    if (strategyMap.size() != length) {
+      log.warn("Expected {} strategies, but found {}", length, strategyMap.size());
+      throw new IllegalStateException("준비된 전략 구현체와 일치하지 않습니다.");
+    }
   }
 
   @Override
   public Info search(Query query) {
     try {
       return strategyMap.get(Order.PRIMARY.getOrderNumber()).search(query);
-    } catch (IllegalStateException e) {
-      if (strategyMap.size() > 1) {
-        return strategyMap.get(Order.SECONDARY.getOrderNumber()).search(query);
-      }
+    } catch (VendorServerException e) {
+      log.warn("Error using primary strategy: {}. Using secondary strategy instead.",
+          e.getMessage());
+
+      return strategyMap.get(Order.SECONDARY.getOrderNumber()).search(query);
     }
-    throw new IllegalStateException("우회할 API 가 없습니다. 확인이 필요합니다.");
   }
 }

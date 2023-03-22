@@ -1,4 +1,5 @@
-package com.gongdel.blog.search.infrastructure.client.kakao;
+package com.gongdel.blog.search.infrastructure.client.naver;
+
 
 import com.gongdel.blog.common.dto.exception.ErrorCode;
 import com.gongdel.blog.common.dto.exception.InvalidParamException;
@@ -9,17 +10,16 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-public class KakaoClient {
+public class NaverClient {
 
   private final WebClient webClient;
 
-  public KakaoKeywordSearch.Response search(KakaoKeywordSearch.Request request) {
-
+  public NaverKeywordSearch.Response search(NaverKeywordSearch.Request request) {
     return this.webClient.get().uri(builder -> builder
-        .path("/v2/search/blog")
+        .path("/v1/search/blog.json")
         .queryParam("query", request.getQuery())
-        .queryParam("page", request.getPage())
-        .queryParam("size", request.getSize())
+        .queryParam("start", request.getPage())
+        .queryParam("display", request.getSize())
         .queryParam("sort", request.getSort()).build())
         .retrieve()
         .onStatus(HttpStatus::is5xxServerError, server -> {
@@ -32,7 +32,7 @@ public class KakaoClient {
               new InvalidParamException(ErrorCode.COMMON_INVALID_PARAMETER)
           );
         })
-        .bodyToMono(KakaoKeywordSearch.Response.class)
+        .bodyToMono(NaverKeywordSearch.Response.class)
         .block();
   }
 }

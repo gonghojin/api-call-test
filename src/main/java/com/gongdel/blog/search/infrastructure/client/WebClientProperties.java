@@ -15,11 +15,32 @@ import org.springframework.util.StringUtils;
 public class WebClientProperties {
 
   private KakaoProperties kakao;
+  private NaverProperties naver;
 
   @Getter
   @Setter
   @NoArgsConstructor
   public static class KakaoProperties {
+
+    private String host;
+
+    @Getter(AccessLevel.NONE)
+    private String scheme;
+
+    private Map<String, String> headers;
+
+    private Integer connectionTimeout;
+    private Integer readTimeout;
+
+    public String getScheme() {
+      return StringUtils.hasText(scheme) ? scheme : "https";
+    }
+  }
+
+  @Getter
+  @Setter
+  @NoArgsConstructor
+  public static class NaverProperties {
 
     private String host;
 

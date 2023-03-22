@@ -1,0 +1,14 @@
+webclient:
+  kakao:
+    host: dapi.kakao.com
+    scheme: https
+    headers:
+      Authorization: KakaoAK xxx
+
+  ## 네이버
+  naver:
+    host: https://openapi.naver.com
+    scheme: https
+    headers:
+      client-id: xxx
+      client-secret: xxx

@@ -33,7 +33,7 @@
 ## 2. 애플리케이션 실행
 
 $ ./gradlew bootRun 
-$ 
+
 
 [소스 다운로드](https://github.com/gonghojin/api-call-test/releases/tag/v1.0)
 > 다운로드 받은 파일 실행 시, java -jar gongdel-api.jar

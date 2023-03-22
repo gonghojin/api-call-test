@@ -32,10 +32,11 @@
 
 ## 2. 애플리케이션 실행
 
-$ ./gradlew build  
-$ java -jar ./build/libs/kakaobank.jar
+$ ./gradlew bootRun 
+$ 
 
-> 다운로드 받은 파일 실행 시, java -jar ./kakaobank.jar
+[소스 다운로드](https://github.com/gonghojin/api-call-test/releases/tag/v1.0)
+> 다운로드 받은 파일 실행 시, java -jar gongdel-api.jar
 
 ---
 
@@ -136,7 +137,7 @@ size	Integer	한 페이지에 보여질 문서 수, 1~50 사이의 값, 기본 �
 ```
 
 ### 4. 그외 고려한 점
-+ 동시성 이슈가 발생할 수 있는 부분을 염두에 둔 구현
++ 동시성 이슈가 발생할 수 있는 부분을 염두
     + 키워드 별로 검색 시, 조회 카운드 변경
         - 빈번한 충돌이 일어날 것이라고 가정하여, `Pessimistic`를 적용하여 구현(H2)
 + 카카오 블로그 검색 API 에 장애가 발생한 경우, 네이버 블로그 검색 API 를 통해 데이터 제공
